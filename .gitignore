@@ -1,3 +1,9 @@
 data/
 .env
 venv/
+
+*.sock
+*.rar
+**/__pycache__/
+*.py[cod]
+***/dbt_course/
