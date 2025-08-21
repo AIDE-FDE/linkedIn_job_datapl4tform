@@ -134,3 +134,11 @@ IGNORE 1 ROWS
 SET foreign_key_checks = 1;
 
 ```
+
+
+
+repair
+docker cp postings_repair.csv de_mysql:/tmp/
+docker cp scripts/update_postings.sql de_mysql:/tmp/
+make to_mysql
+source /tmp/update_postings.sql;
