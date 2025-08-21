@@ -1,0 +1,22 @@
+from dagster import Definitions, load_assets_from_modules
+
+from etl_pipeline import assets  # noqa: TID252
+
+from etl_pipeline.config.io_manager_config import *
+# from resources.clickhouse_io_manager import
+from etl_pipeline.resources.minio_io_manager import MinIOIOManager
+# from resources.psql_io_manager import PostgreSQLIOManager
+from etl_pipeline.resources.mysql_io_manager import MySQLIOManager
+
+all_assets = load_assets_from_modules([assets])
+
+defs = Definitions(
+    assets=all_assets,
+
+    resources= {
+        "mysql_io_manager": MySQLIOManager(MYSQL_CONFIG),
+        'minio_io_manager': MinIOIOManager(MINIO_CONFIG),
+        # 'psql_io_manager': PostgreSQLIOManager (PSQL_CONFIG)
+    }
+)
+
