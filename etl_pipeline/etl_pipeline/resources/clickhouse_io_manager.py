@@ -19,6 +19,8 @@ class ClickHouseIOManager (IOManager):
         self.config = config
 
     def load_input(self, context) -> pd.DataFrame:
-        return 
+        pass
 
+    def handle_output(self, context, obj):
+        pass
     

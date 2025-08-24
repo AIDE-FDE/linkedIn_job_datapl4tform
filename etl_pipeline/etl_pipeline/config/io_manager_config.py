@@ -29,3 +29,4 @@ CLICKHOUSE_CONFIG = {
     "database": "warehouse",
     "port": "8123"
 }
+

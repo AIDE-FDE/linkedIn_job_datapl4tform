@@ -122,6 +122,7 @@ pymysql
 cryptography
 pycryptodome
 clickhouse-connect
+pyspark
 
 # # Optional (for cloud integration if needed)
 # boto3
