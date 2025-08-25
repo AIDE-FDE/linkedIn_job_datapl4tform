@@ -14,6 +14,8 @@ def spark_resource (init_context):
         .master(master_url) \
         .getOrCreate()
 
-    yield spark
-
-    spark.stop()
+    try:
+        yield spark
+    
+    finally:
+        pass

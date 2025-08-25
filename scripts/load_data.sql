@@ -68,9 +68,10 @@ LOAD DATA LOCAL INFILE '/tmp/linkedin_23/mappings/industries.csv'
 INTO TABLE industries
 CHARACTER SET utf8mb4
 FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
-LINES TERMINATED BY '\n'
+LINES TERMINATED BY '\r\n'
 IGNORE 1 ROWS
 (industry_id, industry_name);
+
 
 LOAD DATA LOCAL INFILE '/tmp/linkedin_23/mappings/skills.csv'
 INTO TABLE skills
