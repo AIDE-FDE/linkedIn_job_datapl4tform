@@ -154,6 +154,7 @@ services:
       dockerfile: ./Dockerfile  
     container_name: spark-master
     hostname: spark-master
+    command: bin/spark-class org.apache.spark.deploy.master.Master --host spark-master
     env_file:
       - .env
     ports:

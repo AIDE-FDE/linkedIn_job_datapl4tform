@@ -3,13 +3,11 @@ from dagster import Definitions, configured, load_assets_from_modules
 from etl_pipeline import assets  # noqa: TID252
 
 from etl_pipeline.config.io_manager_config import *
-from etl_pipeline.config.resource_config import *
 
 from etl_pipeline.resources.clickhouse_io_manager import ClickHouseIOManager
 from etl_pipeline.resources.minio_io_manager import MinIOIOManager
 # from resources.psql_io_manager import PostgreSQLIOManager
 from etl_pipeline.resources.mysql_io_manager import MySQLIOManager
-from etl_pipeline.resources.spark_resource import spark_resource
 
 all_assets = load_assets_from_modules([assets])
 
@@ -21,7 +19,6 @@ defs = Definitions(
         'minio_io_manager': MinIOIOManager(MINIO_CONFIG),
         # 'psql_io_manager': PostgreSQLIOManager (PSQL_CONFIG),
         'clickhouse_io_manager': ClickHouseIOManager(CLICKHOUSE_CONFIG),
-        'spark': spark_resource.configured ({'app_name': SPARK_CONFIG['app_name'], 'master_url': SPARK_CONFIG['master_url']})
     }
 )
 

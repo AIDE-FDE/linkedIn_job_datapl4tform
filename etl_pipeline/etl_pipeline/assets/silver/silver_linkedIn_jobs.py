@@ -1,7 +1,9 @@
+from doctest import master
 from dagster import asset, Output, AssetIn, AssetKey, AssetExecutionContext
 import pandas as pd
 
 from pyspark.sql.functions import regexp_replace
+from pyspark.sql import SparkSession
 
 
 # job_skills 
@@ -11,7 +13,6 @@ from pyspark.sql.functions import regexp_replace
     },
     name='silver_jobs_job_skills',
     io_manager_key='minio_io_manager',
-    required_resource_keys={'spark'},
     key_prefix=["silver", "linkedin", "jobs"],
     group_name='silver',
     compute_kind='Spark'
@@ -20,9 +21,16 @@ def silver_job_skills_asset (
     context: AssetExecutionContext,
     bronze_jobs_job_skills: pd.DataFrame
 ) -> Output[pd.DataFrame]:
-    spark = context.resources.spark
+    spark = (
+        SparkSession.builder.appName ('silver_jobs_job_skills')
+                            .master ("spark://spark-master:7077")
+                            .getOrCreate ()
+    )
 
-    bronze_jobs_job_skills_df = spark.createDataframe (bronze_jobs_job_skills)
+    spark.conf.set("spark.sql.execution.arrow.pyspark.enabled", "true")
+    spark.conf.set("spark.sql.execution.arrow.pyspark.fallback.enabled", "true")
+
+    bronze_jobs_job_skills_df = spark.createDataFrame (bronze_jobs_job_skills)
 
     cleaned_df = bronze_jobs_job_skills_df.withColumn (
         "skill_abr",
