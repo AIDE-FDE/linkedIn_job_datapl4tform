@@ -35,7 +35,7 @@ def silver_jobs_job_skills (
         "skill_abr",
         regexp_replace("skill_abr", "[\r\n]", "")
     )
-
+    cleaned_df = cleaned_df.dropDuplicates (list(bronze_jobs_job_skills.columns))
     pandas_df = cleaned_df.toPandas ()
 
     context.log.info (f'clean {len (pandas_df)} records to silver layer')
@@ -65,7 +65,7 @@ def silver_jobs_benefits (
     context: AssetExecutionContext,
     bronze_jobs_benefits: pd.DataFrame
 ) -> Output[pd.DataFrame]:
-    pandas_df = bronze_jobs_benefits
+    pandas_df = bronze_jobs_benefits.drop_duplicates ()
 
     context.log.info (f'clean {len (pandas_df)} records to silver layer')
 
@@ -119,7 +119,7 @@ def silver_jobs_industries (
         FROM industries
     """
 
-    cleaned_df = spark.sql (sql_stm)
+    cleaned_df = spark.sql (sql_stm).dropDuplicates (list(bronze_jobs_industries.columns))
 
     # cleaned_df = bronze_jobs_industries_df.withColumn(
     #     "industry_name",
@@ -161,7 +161,7 @@ def silver_jobs_job_industries (
     context: AssetExecutionContext,
     bronze_jobs_job_industries: pd.DataFrame
 ) -> Output[pd.DataFrame]:
-    pandas_df = bronze_jobs_job_industries
+    pandas_df = bronze_jobs_job_industries.drop_duplicates ()
 
     context.log.info (f'clean {len (pandas_df)} records to silver layer')
 
