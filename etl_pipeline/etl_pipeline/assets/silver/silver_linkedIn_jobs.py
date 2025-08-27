@@ -54,3 +54,28 @@ def silver_job_skills_asset (
 # benefits             
 # industries           
 # job_industries       
+@asset (
+    ins= {
+        'bronze_jobs_job_industries': AssetIn (key_prefix=["bronze", "linkedin", "jobs"])
+    },
+    name='silver_jobs_job_industries',
+    io_manager_key='minio_io_manager',
+    key_prefix=["silver", "linkedin", "jobs"],
+    group_name='silver',
+    compute_kind='pandas'
+)
+def silver_job_industries_asset (
+    context: AssetExecutionContext,
+    bronze_jobs_job_industries: pd.DataFrame
+) -> Output[pd.DataFrame]:
+    pandas_df = bronze_jobs_job_industries.copy ()
+
+    context.log.info (f'clean {len (pandas_df)} records to silver layer')
+
+    return Output (
+        pandas_df,
+        metadata={
+            'table': 'silver_jobs_job_skills',
+            'record': len (pandas_df)
+        }
+    )
