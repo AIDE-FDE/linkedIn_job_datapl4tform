@@ -169,6 +169,11 @@ def silver_companies_employee_counts(
 
     cleaned_df = spark.sql(sql_stm)
 
+    cleaned_df.withColumn (
+        'time_recorded',
+        col ('time_recorded') * 1000
+    )
+
     cleaned_df = cleaned_df.dropDuplicates(
         ["company_id", "time_recorded", "employee_count", "employee_count_range"]
     )

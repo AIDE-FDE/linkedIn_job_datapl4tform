@@ -1,6 +1,6 @@
 import os
 from contextlib import contextmanager
-from datetime import datetime
+from datetime import datetime, timedelta
 from typing import Union
 
 import pandas as pd
@@ -35,7 +35,10 @@ class MinIOIOManager(IOManager):
         # if has the partition
         if context.has_asset_partitions:
             partition_key = context.asset_partition_key
-            key = f"{base_key}/partition-{partition_key}/data.parquet"
+            start_day = datetime.strptime (partition_key, "%Y-%m-%d")
+
+            end_day = (start_day + timedelta (weeks=1)).strftime ("%Y-%m-%d")
+            key = f"{base_key}/partition={partition_key}_to_{end_day}/data.parquet"
         else:
             key = f"{base_key}.parquet"
 
