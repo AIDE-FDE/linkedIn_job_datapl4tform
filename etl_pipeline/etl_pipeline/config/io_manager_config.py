@@ -22,11 +22,12 @@ PSQL_CONFIG = {
 } 
 
 
+
 CLICKHOUSE_CONFIG = {
-    "host": "clickhouse",
-    "user": "admin",
-    "passworđ": "admin123",
+    "host": "clickhouse",        
+    "port": 8123,                
+    "username": "admin",
+    "password": "admin123",
     "database": "warehouse",
-    "port": "8123"
 }
 
