@@ -40,6 +40,10 @@ def dim_gold_company_industries (
                                    df_company_industries['industry'] == df_industries['industry_name'], how="left")
         .select("company_id", "industry_id", "industry_name")
         .dropDuplicates()
+        .filter(
+            (col("industry_id").isNotNull()) & (col("industry_id") != "") |
+            (col("industry_name").isNotNull()) & (col("industry_name") != "")
+    )
     )
 
     context.log.info (df_dim.head (10))
