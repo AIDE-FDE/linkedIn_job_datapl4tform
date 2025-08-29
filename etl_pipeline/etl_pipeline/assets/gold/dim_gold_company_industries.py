@@ -11,7 +11,7 @@ from pyspark.sql import SparkSession
         'silver_jobs_industries': AssetIn (key_prefix=["silver", "linkedin", "jobs"])
     },
 
-    name='dim_gold_job_industries',
+    name='dim_gold_company_industries',
     io_manager_key="minio_io_manager",
     key_prefix=["gold", "linkedin", 'dim'],
     group_name="gold",
