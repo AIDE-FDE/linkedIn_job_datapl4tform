@@ -7,11 +7,11 @@ import pandas as pd
         "silver_companies_employee_counts": AssetIn(key_prefix=["silver", "linkedin", "companies"])
     },
     name="dim_gold_employee_counts",
-    io_manager_key="minio_io_manager",
-    key_prefix=["gold", "linkedin", "dim"],
+    io_manager_key="psql_io_manager",
+    key_prefix=["gold", "linkedin", "warehouse"],
     group_name="gold",
     partitions_def=WeeklyPartitionsDefinition(start_date="2023-01-01", day_offset=1),  
-    compute_kind="Spark",
+    compute_kind="Postgresql",
 )
 def dim_gold_employee_counts(
     context: AssetExecutionContext,

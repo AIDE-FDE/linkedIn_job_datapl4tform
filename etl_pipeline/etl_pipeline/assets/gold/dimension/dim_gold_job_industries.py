@@ -12,10 +12,10 @@ from pyspark.sql import SparkSession
     },
 
     name='dim_gold_job_industries',
-    io_manager_key="minio_io_manager",
-    key_prefix=["gold", "linkedin", 'dim'],
+    io_manager_key="psql_io_manager",
+    key_prefix=["gold", "linkedin", 'warehouse'],
     group_name="gold",
-    compute_kind="Spark",
+    compute_kind="Postgresql",
 
 )
 def dim_gold_job_industries (

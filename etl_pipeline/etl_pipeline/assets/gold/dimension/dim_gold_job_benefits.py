@@ -9,10 +9,10 @@ import pandas as pd
     },
 
     name='dim_gold_job_benefits',
-    io_manager_key="minio_io_manager",
-    key_prefix=["gold", "linkedin", 'dim'],
+    io_manager_key="psql_io_manager",
+    key_prefix=["gold", "linkedin", 'warehouse'],
     group_name="gold",
-    compute_kind="pandas",
+    compute_kind="Postgresql",
 
 )
 def dim_gold_job_benefits (

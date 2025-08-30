@@ -8,10 +8,10 @@ import pandas as pd
     },
 
     name='fact_gold_companies',
-    io_manager_key="minio_io_manager",
-    key_prefix=["gold", "linkedin", 'fact'],
+    io_manager_key="psql_io_manager",
+    key_prefix=["gold", "linkedin", 'warehouse'],
     group_name="gold",
-    compute_kind="pandas",
+    compute_kind="Postgresql",
 
 )
 def fact_gold_companies (

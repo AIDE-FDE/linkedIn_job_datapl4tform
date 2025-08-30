@@ -10,11 +10,11 @@ from pyspark.sql import SparkSession
     },
 
     name='fact_gold_postings',
-    io_manager_key="minio_io_manager",
-    key_prefix=["gold", "linkedin", 'fact'],
+    io_manager_key="psql_io_manager",
+    key_prefix=["gold", "linkedin", 'warehouse'],
     partitions_def=WeeklyPartitionsDefinition(start_date="2023-01-01", day_offset=1),  
     group_name="gold",
-    compute_kind="Spark",
+    compute_kind="Postgresql",
 
 )
 def fact_gold_postings (
@@ -31,7 +31,7 @@ def fact_gold_postings (
     spark.conf.set("spark.sql.execution.arrow.pyspark.fallback.enabled", "true")
 
     df_postings = spark.createDataFrame (silver_postings_postings)
-    df_postings = df_postings.drop ('job_id', 'max_salary', 'med_salary', 'min_salary', 'pay_period', 'currency', 'compensation_type')
+    df_postings = df_postings.drop ('max_salary', 'med_salary', 'min_salary', 'pay_period', 'currency', 'compensation_type')
     
     result = df_postings.toPandas ()
 

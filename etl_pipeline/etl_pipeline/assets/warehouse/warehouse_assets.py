@@ -69,7 +69,7 @@ def create_warehouse_asset_with_partition(type: str, upstream_name: str):
         key_prefix=["default", "linkedin", "warehouse"],
         io_manager_key="psql_io_manager",
         partitions_def=WeeklyPartitionsDefinition(start_date="2023-01-01", day_offset=1),  
-        compute_kind="Clickhouse",
+        compute_kind="Postgresql",
         group_name="warehouse"
     )
     def warehouse_asset(
