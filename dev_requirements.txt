@@ -19,6 +19,7 @@ dagster-pipes==1.11.5
 dagster-webserver==1.11.5
 dagster_shared==1.11.5
 dagster-postgres
+dagster_dbt
 dbt-adapters==1.16.3
 dbt-common==1.27.1
 dbt-core==1.10.8
@@ -122,7 +123,7 @@ pymysql
 cryptography
 pycryptodome
 clickhouse-connect
-pyspark
+pyspark==3.4.3
 
 # # Optional (for cloud integration if needed)
 # boto3
