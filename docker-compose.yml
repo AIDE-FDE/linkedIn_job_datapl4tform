@@ -172,11 +172,26 @@ services:
     depends_on:
       - spark-master
     ports:
-      - "8081"    # worker web ui 
+      - "8082:8081"    # worker web ui 
     networks:
       - de_network
     deploy:
       replicas: 2   
+
+  metabase:
+    image: metabase/metabase:latest
+    container_name: metabase
+    hostname: metabase
+    volumes:
+      - ./data/metabase:/metabase_data
+    ports:
+      - "3000:3000"
+    env_file:
+      - .env
+    depends_on:
+      - de_psql
+    networks:
+      - de_network
 
 networks:
   de_network:
