@@ -1,42 +1,164 @@
-1. Initialize the virtual environment then activate it
-2. Download the dataset file
+# LinkedIn Jobs Market Data platform
+## 1. Overview
+Built a data platform analyzing 50,000+ LinkedIn job postings (2023–2024), providing insights into hiring trends and workforce demand
+## 2. Features
+This project delivers a data platform that supports analytical applications built with Metabase. Large volumes of data can be efficiently processed in partitions and orchestrated using Dagster. The system leverages dbt to perform data transformations and analytics on datasets stored in MinIO. In addition, Apache Spark has been integrated into the platform to enable advanced processing capabilities and future innovations.
+## 3. Architecture
+
+#### **Bronze Layer**
+
+* **Source:** MySQL
+* **Storage:** Minio
+* **Purpose:** Stores the **raw dataset** downloaded from Kaggle without any modifications.
+
+#### **Silver Layer**
+
+* **Source:** Bronze Layer
+* **Storage:** Minio
+* **Processing Frameworks:** Apache Spark, Pandas
+* **Purpose:** Contains **cleaned and standardized data** loaded from the Bronze Layer. This layer ensures data quality and consistency before moving to higher layers.
+
+#### **Gold Layer**
+
+* **Source:** Silver Layer
+* **Storage:** PostgreSQL
+* **Processing Frameworks:** Apache Spark, Pandas
+* **Transformation Tool:** dbt
+* **Purpose:** Stores **aggregated and modeled data** (fact and dimension tables) transformed from the Silver Layer. This layer is optimized for analytics and reporting.
+
+#### **Visualization Layer**
+
+* **Tool:** Metabase
+* **Purpose:** Provides **interactive analytics and visualizations** based on the curated data in the Gold Layer.
 
 
+#### 3.1. Workflow
+![Alt text](./images/workflow.png)
+### 3.2. Data lineage
+![Alt text](./images/lineage.svg)
+## 4. How to run
+### 4.1 Prerequisites
+- Docker
+- Docker Compose
+- Python 3.12
+- DBeaver
+
+### 4.2 Deployment Guide
+
+#### 4.2.1. Create and activate virtual environment
+
+```bash
+python -m venv venv
+venv/Scripts/activate   # Windows
+# or
+source venv/bin/activate       # Linux / MacOS
 ```
+
+#### 4.2.2. Download the source code
+
+```bash
+git clone https://github.com/AIDE-FDE/linkedIn_job_datapl4tform.git
+cd linkedIn_job_datapl4tform
+```
+
+#### 4.2.3. Environment configuration
+
+* Create a `.env` file in the project root folder.
+* Use `sample_env.txt` as a reference for formatting.
+
+#### 4.2.4. Build and start services with Docker
+
+```bash
+docker-compose build   # or make build
+docker-compose up -d   # or make up
+```
+
+#### 4.2.5. Prepare the dataset
+
+- Download dataset from Kaggle
+
+```bash
+python linkedin_dataset_downloader.py
+```
+
+- Load dataset into MySQL
+```bash
+# Copy data and SQL scripts into the MySQL container:
 docker cp data/linkedin_23/ de_mysql:/tmp/
 docker cp scripts/raw_mysql_linkedin23_schema.sql de_mysql:/tmp/
 docker cp scripts/load_data.sql de_mysql:/tmp/
 
-
-
+# Enable local infile in MySQL:
 make to_mysql_root
 SHOW GLOBAL VARIABLES LIKE 'LOCAL_INFILE';
 SET GLOBAL LOCAL_INFILE=TRUE;
 exit
-```
 
-```
+# Create tables and load data:
 make to_mysql
 source /tmp/raw_mysql_linkedin23_schema.sql;
 source /tmp/load_data.sql;
 
-```
-
-```sql
-
-
-```
-
-
-
-repair
-
-
+# Fix corrupted data (if needed):
 docker cp postings_repair.csv de_mysql:/tmp/
 docker cp scripts/update_postings.sql de_mysql:/tmp/
 make to_mysql
 source /tmp/update_postings.sql;
+```
+
+#### 4.2.6. Access integrated tools
+
+* **Dagster WebUI (data pipelines):** [http://localhost:3001](http://localhost:3001)
+* **DBeaver (database client):**
+
+  * MySQL
+
+    ```
+    Host: localhost
+    Port: 3306
+    Database: linkedin_job
+    Username: admin
+    Password: admin123
+    ```
+
+    *(or based on your `.env` config)*
+  * PostgreSQL
+
+    ```
+    Host: localhost
+    Port: 5433
+    Database: postgres
+    Username: admin
+    Password: admin123
+    ```
+
+    *(or based on your `.env` config)*
+* **Minio (object storage):** [http://localhost:9001](http://localhost:9001)
+* **Metabase (analytics & visualization):** [http://localhost:3000](http://localhost:3000)
+
+#### 4.2.7. View dbt documentation & lineage graph
+
+```bash
+cd etl_pipeline/linkedin_job_market
+dbt docs generate
+dbt docs serve
+```
+
+Access it at: [http://localhost:8080](http://localhost:8080)
+
+## 5. Interfaces
+- [http://localhost:3001](http://localhost:3001)   -------------     Dagster WebUI
+- [http://localhost:8080](http://localhost:8080)   -------------     Dbt docs
+- [http://localhost:3000](http://localhost:3000)   -------------     Metabase
+- [http://localhost:9001](http://localhost:9001)   -------------     Minio
+- [http://localhost:8082](http://localhost:8082)   -------------     Spark Master
 
 
+## Acknowledgements
+Special thanks to Mr. Hung Le and Assoc. Prof. Nguyen Thanh Binh for their valuable support and guidance throughout this project.
 
-![Alt text](./images/lineage.svg)
+This project also makes use of several great resources and tools:
+
+- Dataset: LinkedIn Job Postings (2023 - 2024) from [Kaggle](https://www.kaggle.com/datasets/arshkon/linkedin-job-postings)
+
+- Libraries & Tools: Built with technologies and skills gained from the Fundamental Data Engineering (FDE11) program at AIDE Institute
