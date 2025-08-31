@@ -5,20 +5,20 @@ Built a data platform analyzing 50,000+ LinkedIn job postings (2023–2024), pro
 This project delivers a data platform that supports analytical applications built with Metabase. Large volumes of data can be efficiently processed in partitions and orchestrated using Dagster. The system leverages dbt to perform data transformations and analytics on datasets stored in MinIO. In addition, Apache Spark has been integrated into the platform to enable advanced processing capabilities and future innovations.
 ## 3. Architecture
 
-#### **Bronze Layer**
+**Bronze Layer**
 
 * **Source:** MySQL
 * **Storage:** Minio
 * **Purpose:** Stores the **raw dataset** downloaded from Kaggle without any modifications.
 
-#### **Silver Layer**
+**Silver Layer**
 
 * **Source:** Bronze Layer
 * **Storage:** Minio
 * **Processing Frameworks:** Apache Spark, Pandas
 * **Purpose:** Contains **cleaned and standardized data** loaded from the Bronze Layer. This layer ensures data quality and consistency before moving to higher layers.
 
-#### **Gold Layer**
+**Gold Layer**
 
 * **Source:** Silver Layer
 * **Storage:** PostgreSQL
@@ -26,7 +26,7 @@ This project delivers a data platform that supports analytical applications buil
 * **Transformation Tool:** dbt
 * **Purpose:** Stores **aggregated and modeled data** (fact and dimension tables) transformed from the Silver Layer. This layer is optimized for analytics and reporting.
 
-#### **Visualization Layer**
+**Visualization Layer**
 
 * **Tool:** Metabase
 * **Purpose:** Provides **interactive analytics and visualizations** based on the curated data in the Gold Layer.
