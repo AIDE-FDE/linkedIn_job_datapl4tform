@@ -32,7 +32,7 @@ This project delivers a data platform that supports analytical applications buil
 * **Purpose:** Provides **interactive analytics and visualizations** based on the curated data in the Gold Layer.
 
 
-#### 3.1. Workflow
+### 3.1. Workflow
 ![Alt text](./images/workflow.png)
 ### 3.2. Data lineage
 ![Alt text](./images/lineage.svg)
