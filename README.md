@@ -35,7 +35,7 @@ This project delivers a data platform that supports analytical applications buil
 #### 3.1. Workflow
 ![Alt text](./images/workflow.png)
 ### 3.2. Data lineage
-![Alt text](./images/lineages.svg)
+![Alt text](./images/lineage.svg)
 ### 3.3. Data source schema
 ![Alt text](./images/linkedin_job_hiring.png)
 #### Summary Dataset
