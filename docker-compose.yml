@@ -159,7 +159,7 @@ services:
       - .env
     ports:
       - "7077:7077"
-      - "8081:8080"
+      - "8082:8080"
     volumes:
       - ./spark/spark-defaults.conf:/opt/bitnami/spark/conf/spark-defaults.conf
     networks:
@@ -172,7 +172,7 @@ services:
     depends_on:
       - spark-master
     ports:
-      - "8082:8081"    # worker web ui 
+      - "8081"    # worker web ui 
     networks:
       - de_network
     deploy:

@@ -36,3 +36,7 @@ docker cp postings_repair.csv de_mysql:/tmp/
 docker cp scripts/update_postings.sql de_mysql:/tmp/
 make to_mysql
 source /tmp/update_postings.sql;
+
+
+
+![Alt text](./images/lineage.svg)
