@@ -1,4 +1,6 @@
 # LinkedIn Jobs Market Data platform
+![Alt text](./images/cover.png)
+
 ## 1. Overview
 Built a data platform analyzing 50,000+ LinkedIn job postings (2023–2024), providing insights into hiring trends and workforce demand
 ## 2. Features
