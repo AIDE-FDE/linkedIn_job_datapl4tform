@@ -209,7 +209,7 @@ Access it at: [http://localhost:8080](http://localhost:8080)
 
 
 ## Acknowledgements
-Special thanks to Mr. Hung Le and Assoc. Prof. Nguyen Thanh Binh for their valuable support and guidance throughout this project.
+Special thanks to **Mr. Hung Le** and **Assoc. Prof. Nguyen Thanh Binh** for their valuable support and guidance throughout this project.
 
 This project also makes use of several great resources and tools:
 
