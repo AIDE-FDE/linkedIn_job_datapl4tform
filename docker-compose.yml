@@ -151,32 +151,52 @@ services:
   spark-master:
     build:
       context: ./spark
-      dockerfile: ./Dockerfile  
+      dockerfile: ./Dockerfile
+    image: custom-spark:latest 
     container_name: spark-master
     hostname: spark-master
-    command: bin/spark-class org.apache.spark.deploy.master.Master --host spark-master
+    # SỬA Ở ĐÂY: Thêm /opt/spark/
+    command: /opt/spark/bin/spark-class org.apache.spark.deploy.master.Master --host spark-master
     env_file:
       - .env
     ports:
       - "7077:7077"
       - "8082:8080"
     volumes:
-      - ./spark/spark-defaults.conf:/opt/bitnami/spark/conf/spark-defaults.conf
+      - ./spark/spark-defaults.conf:/opt/spark/conf/spark-defaults.conf
     networks:
       - de_network
 
-  spark-worker:
-    image: docker.io/bitnami/spark:3.4.3
+  spark-worker-1:
+    image: custom-spark:latest
+    container_name: spark-worker-1
+    hostname: spark-worker-1
     env_file:
       - .env
     depends_on:
       - spark-master
+    # SỬA Ở ĐÂY: Thêm /opt/spark/
+    command: /opt/spark/bin/spark-class org.apache.spark.deploy.worker.Worker spark://spark-master:7077
     ports:
-      - "8081"    # worker web ui 
+      - "8081:8081" 
     networks:
       - de_network
-    deploy:
-      replicas: 2   
+
+  spark-worker-2:
+    image: custom-spark:latest
+    container_name: spark-worker-2
+    hostname: spark-worker-2
+    env_file:
+      - .env
+    depends_on:
+      - spark-master
+    # SỬA Ở ĐÂY: Thêm /opt/spark/
+    command: /opt/spark/bin/spark-class org.apache.spark.deploy.worker.Worker spark://spark-master:7077
+    ports:
+      - "8083:8081" 
+    networks:
+      - de_network
+
 
   metabase:
     image: metabase/metabase:latest
